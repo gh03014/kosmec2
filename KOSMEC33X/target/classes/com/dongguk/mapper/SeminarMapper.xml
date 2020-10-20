@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dongguk.mapper.SeminarMapper">
+	
+<select id="getMaxNum" resultType="int">
+<![CDATA[
+select max(num) from seminar
+]]>
+</select>
+
+<select id="getSearchMaxNum" resultType="int">
+<![CDATA[
+select count(*) from seminar 
+where title like '%'||#{title}||'%' 
+and field like '%'||#{field}||'%' 
+and area like '%'||#{area}||'%'
+]]>
+</select>
+	
+<select id="getList" resultType="com.dongguk.domain.SeminarVO">
+<![CDATA[
+select a.* from (select rownum rn, b.* from 
+(select * from seminar where title like '%'||#{title}||'%' 
+and field like '%'||#{field}||'%' 
+and area like '%'||#{area}||'%' order by num) b 
+where rownum <= #{startRow} ) a where rn > #{endRow} order by num desc
+]]>
+</select>
+
+<select id="getView" resultType="com.dongguk.domain.SeminarVO">
+<![CDATA[
+select * from seminar where num = #{num}
+]]>
+</select>
+
+<update id="addRead">
+<![CDATA[
+update seminar set read_count = read_count+1 where num = #{num}
+]]>
+</update>
+
+<insert id="insert">
+	insert into seminar (num, field, area, title, source, start_date, stop_date, register_date, update_date, read_count)
+	values (#{num}, #{field}, #{area}, #{title}, #{source}, #{start_date}, #{stop_date}, sysdate, sysdate, 0)
+</insert>
+
+<delete id="delete">
+delete from seminar where num = #{num}
+</delete>
+
+<update id="updateNum">
+<![CDATA[
+update seminar set num = num-1 where num > #{num}
+]]>
+</update>
+
+<update id="update">
+update seminar set title=#{title}, field=#{field}, area=#{area}, source=#{source}, start_date=#{start_date}, 
+stop_date=#{stop_date}, update_date=sysdate where num = #{num}
+</update>
+	
+</mapper>   
