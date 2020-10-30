@@ -3,3 +3,5 @@
 스프링(응용문맥DI, 인터페이스를 이용한 DI분리, 오라클 CRUD구현, MyBatis, Junit 단위테스트, AOP)사용
 
 미디어 쿼리, viewport속성을 이용한 반응형 웹 적용
+
+개발환경: jdk8, tomcat8(or 9), windows 10, oracle 11g
